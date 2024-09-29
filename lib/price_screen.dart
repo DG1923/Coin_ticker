@@ -19,6 +19,34 @@ class _PriceScreenState extends State<PriceScreen> {
       index_item = indexNewItem;
     });
   }
+  Padding cardWidget(String coin, String currency, String exchangeRate){
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+      child: Card(
+        color: Colors.lightBlueAccent,
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding:
+          EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                "1 ${coin} = ${exchangeRate} ${currency}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     CoinData item = widget.listCoin[index_item];
@@ -33,47 +61,14 @@ class _PriceScreenState extends State<PriceScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-                child: Card(
-                  color: Colors.lightBlueAccent,
-                  elevation: 5.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          "1 BTC = ${item.bTC} ${item.currency}",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          "1 ETH = ${item.eTH} ${item.currency}",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          "1 LTC = ${item.lTC} ${item.currency}",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  cardWidget("BTC", currenciesList[index_item], item.bTC),
+                  cardWidget("ETH", currenciesList[index_item], item.eTH),
+                  cardWidget("LTC", currenciesList[index_item], item.lTC),
+                ],
               ),
               Container(
                 height: 150.0,
@@ -134,6 +129,6 @@ class _dropDownMenuState extends State<dropDownMenu> {
   }
   @override
   Widget build(BuildContext context) {
-    return iosPlatform();
+    return Platform.isAndroid?andoridPlatform():iosPlatform();
   }
 }
